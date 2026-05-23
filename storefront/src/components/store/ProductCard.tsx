@@ -20,9 +20,9 @@ export function ProductCard({ product }: ProductCardProps) {
     .sort((a, b) => a.amount - b.amount)[0]
 
   return (
-    <Card className="bg-zinc-900 border-white/10 overflow-hidden group hover:border-amber-400/40 transition-colors">
+    <Card className="bg-white border-slate-200 overflow-hidden group hover:border-blue-300 hover:shadow-md transition-all">
       <Link href={`/products/${product.id}`}>
-        <div className="relative aspect-square bg-zinc-800 overflow-hidden">
+        <div className="relative aspect-square bg-slate-50 overflow-hidden">
           {product.thumbnail ? (
             <Image
               src={product.thumbnail}
@@ -31,11 +31,11 @@ export function ProductCard({ product }: ProductCardProps) {
               className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-zinc-600 text-xs">
+            <div className="flex h-full items-center justify-center text-slate-300 text-xs">
               No image
             </div>
           )}
-          <Badge className="absolute top-2 left-2 bg-amber-400 text-black text-xs font-semibold">
+          <Badge className="absolute top-2 left-2 bg-emerald-100 text-emerald-700 border-emerald-200 text-xs font-semibold">
             In Stock
           </Badge>
         </div>
@@ -43,18 +43,18 @@ export function ProductCard({ product }: ProductCardProps) {
 
       <CardContent className="p-4 space-y-3">
         <Link href={`/products/${product.id}`}>
-          <h3 className="font-semibold text-white text-sm leading-tight hover:text-amber-400 transition-colors line-clamp-2">
+          <h3 className="font-semibold text-slate-900 text-sm leading-tight hover:text-blue-600 transition-colors line-clamp-2">
             {product.title}
           </h3>
         </Link>
 
         <div className="flex items-center justify-between">
-          <span className="text-amber-400 font-bold">
+          <span className="text-blue-600 font-bold">
             {lowestPrice ? formatPrice(lowestPrice.amount, lowestPrice.currency_code) : "—"}
           </span>
           <Button
             size="sm"
-            className="bg-amber-400 text-black hover:bg-amber-300 h-8 px-3 gap-1.5 text-xs font-semibold"
+            className="bg-blue-600 text-white hover:bg-blue-700 h-8 px-3 gap-1.5 text-xs font-semibold"
           >
             <ShoppingCart className="h-3.5 w-3.5" />
             Add to Cart
@@ -67,11 +67,11 @@ export function ProductCard({ product }: ProductCardProps) {
 
 export function ProductCardSkeleton() {
   return (
-    <Card className="bg-zinc-900 border-white/10 overflow-hidden">
-      <div className="aspect-square bg-zinc-800 animate-pulse" />
+    <Card className="bg-white border-slate-200 overflow-hidden">
+      <div className="aspect-square bg-slate-100 animate-pulse" />
       <CardContent className="p-4 space-y-3">
-        <div className="h-4 bg-zinc-800 rounded animate-pulse w-3/4" />
-        <div className="h-4 bg-zinc-800 rounded animate-pulse w-1/2" />
+        <div className="h-4 bg-slate-100 rounded animate-pulse w-3/4" />
+        <div className="h-4 bg-slate-100 rounded animate-pulse w-1/2" />
       </CardContent>
     </Card>
   )
