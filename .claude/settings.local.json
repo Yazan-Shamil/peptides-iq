@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git --version)",
+      "Bash(gh --version)",
+      "Bash(npx create-medusa-app@latest backend --skip-db --no-browser)"
+    ]
+  }
+}
