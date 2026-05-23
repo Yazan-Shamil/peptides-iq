@@ -1,6 +1,8 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { ShoppingCart, Menu, FlaskConical } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
@@ -14,6 +16,13 @@ const navLinks = [
 
 export function Navbar() {
   const { itemCount } = useCartStore()
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const router = useRouter()
+
+  function handleMobileNav(href: string) {
+    setMobileOpen(false)
+    router.push(href)
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur">
@@ -51,7 +60,7 @@ export function Navbar() {
           </Link>
 
           {/* Mobile menu */}
-          <Sheet>
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger
               className="md:hidden"
               render={
@@ -63,13 +72,13 @@ export function Navbar() {
             <SheetContent side="right" className="bg-white border-slate-200">
               <nav className="flex flex-col gap-6 mt-8">
                 {navLinks.map((link) => (
-                  <Link
+                  <button
                     key={link.href}
-                    href={link.href}
-                    className="text-lg text-slate-500 hover:text-slate-900 transition-colors"
+                    onClick={() => handleMobileNav(link.href)}
+                    className="text-lg text-slate-500 hover:text-slate-900 transition-colors text-left"
                   >
                     {link.label}
-                  </Link>
+                  </button>
                 ))}
               </nav>
             </SheetContent>

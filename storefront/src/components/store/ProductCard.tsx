@@ -1,23 +1,42 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
+import { FlaskConical, ShoppingCart } from "lucide-react"
+import { toast } from "sonner"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ShoppingCart } from "lucide-react"
 import { Product } from "@/types"
+import { formatPrice } from "@/lib/mock-data"
+import { useCartStore } from "@/lib/cart-store"
 
 interface ProductCardProps {
   product: Product
 }
 
-function formatPrice(amount: number, currency: string = "USD") {
-  return new Intl.NumberFormat("en-US", { style: "currency", currency }).format(amount / 100)
-}
-
 export function ProductCard({ product }: ProductCardProps) {
-  const lowestPrice = product.variants
-    .flatMap((v) => v.prices)
-    .sort((a, b) => a.amount - b.amount)[0]
+  const { addItem } = useCartStore()
+
+  const lowestVariant = product.variants
+    .sort((a, b) => a.prices[0].amount - b.prices[0].amount)[0]
+  const lowestPrice = lowestVariant?.prices[0]
+
+  function handleAddToCart(e: React.MouseEvent) {
+    e.preventDefault()
+    if (!lowestVariant || !lowestPrice) return
+    addItem({
+      variantId: lowestVariant.id,
+      productId: product.id,
+      productTitle: product.title,
+      variantTitle: lowestVariant.title,
+      price: lowestPrice.amount,
+      currency: lowestPrice.currency_code,
+    })
+    toast.success(`${product.title} added to cart`, {
+      description: lowestVariant.title,
+    })
+  }
 
   return (
     <Card className="bg-white border-slate-200 overflow-hidden group hover:border-blue-300 hover:shadow-md transition-all">
@@ -31,8 +50,9 @@ export function ProductCard({ product }: ProductCardProps) {
               className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-slate-300 text-xs">
-              No image
+            <div className="flex h-full flex-col items-center justify-center gap-2 text-slate-300">
+              <FlaskConical className="h-10 w-10" />
+              <span className="text-xs">Peptides IQ</span>
             </div>
           )}
           <Badge className="absolute top-2 left-2 bg-emerald-100 text-emerald-700 border-emerald-200 text-xs font-semibold">
@@ -54,6 +74,7 @@ export function ProductCard({ product }: ProductCardProps) {
           </span>
           <Button
             size="sm"
+            onClick={handleAddToCart}
             className="bg-blue-600 text-white hover:bg-blue-700 h-8 px-3 gap-1.5 text-xs font-semibold"
           >
             <ShoppingCart className="h-3.5 w-3.5" />

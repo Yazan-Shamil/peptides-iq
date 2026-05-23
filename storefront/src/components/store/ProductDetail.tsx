@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { ChevronRight, ShoppingCart, FlaskConical, ShieldCheck, Truck, Minus, Plus } from "lucide-react"
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
@@ -35,6 +36,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
         currency: price.currency_code,
       })
     }
+    toast.success(`${product.title} added to cart`, {
+      description: `${quantity} × ${selectedVariant.title}`,
+    })
     setAdded(true)
     setTimeout(() => setAdded(false), 2000)
   }
