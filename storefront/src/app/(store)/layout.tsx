@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/store/Navbar"
 import { Footer } from "@/components/store/Footer"
+import { WhatsAppButton } from "@/components/store/WhatsAppButton"
 import { CartProvider } from "@/lib/cart-store"
 
 export default function StoreLayout({ children }: { children: React.ReactNode }) {
@@ -9,6 +10,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
+        <WhatsAppButton />
       </div>
     </CartProvider>
   )
